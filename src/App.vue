@@ -1,22 +1,89 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld v-bind:msg="mensaje"/>
+  <div class="row">
+    <div class="col m12">
+      <div class="col m4">
+        <label>Nombre</label>
+        <input type="text" v-model="nombre">
+      </div>
+        <div class="col m4">
+          <label>Apellido</label>
+          <input type="text" v-model="apellido">
+        </div>
+      </div>
+
+    <div class="row">
+        <div class="col m4">
+          <label>Edad</label>
+          <input type="number" v-model="edad">
+      </div>
+      
+      <div class="col m4">
+          <label>Estado Civil</label>
+          <select v-model="estado_civil">
+            <option value="C">Casado</option>
+            <option value="S">Soltero</option>
+            <option value="D">Divorciado</option>
+            <option value="V">Viudo</option>
+          </select>
+      </div>
+      <div class="col m4">
+          <label>Correo</label>
+          <input type="email" v-model="correo">
+      </div>
+      <div class="row">
+        <div class="col m4">
+          <label>Pasatiempo</label>
+          <input type="text" v-model="pasatiempo">
+          <br>
+          <ul>
+            <li v-for="pasatiempo in pasatiempos" v-bind:key="pasatiempo">{{pasatiempo.descripcion}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col m4">
+          <label><input type="checkbox" v-model="suscribirse">
+            <span>suscribirse al boletin de noticias</span>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <button type="submit" class="btn indigo darken-4">AGREGAR USUARIO<i class="material-icons">add_circle</i></button>
+      </div>
+    </div>
+    
+  </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import M from 'materialize-ccs'
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  },
   data(){
-    return {
-      mensaje: 'HOLA XAVIER CEDEÑO'
+    return{
+      nombre:'',
+      apellido:'',
+      edad: 0,
+      estado_civil:'',
+      documento:'',
+      suscribirse:false,
+      correo:'',
+      pasatiempo:'' ,
+      pasatiempos:[],
+
+      select_instances: []
     }
+  },
+
+  mounted(){
+    var elems = document.querySelectorAll('select');
+    this.select_instances = M.FormSelect.init(elems, null);
   }
-}
+
+  }
+
 </script>
 
 <style>
