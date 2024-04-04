@@ -20,6 +20,7 @@
       <div class="col m4">
           <label>Estado Civil</label>
           <select v-model="estado_civil">
+            <option value="">Seleccione</option>
             <option value="C">Casado</option>
             <option value="S">Soltero</option>
             <option value="D">Divorciado</option>
@@ -31,9 +32,10 @@
           <input type="email" v-model="correo">
       </div>
       <div class="row">
-        <div class="col m4">
+        <div class="col m4 card-panel">
           <label>Pasatiempo</label>
           <input type="text" v-model="pasatiempo">
+          <button type="button" class="btn indigo darken-3">AGREGAR PASATIEMPO<i class="material-icons right">send</i></button>
           <br>
           <ul>
             <li v-for="pasatiempo in pasatiempos" v-bind:key="pasatiempo">{{pasatiempo.descripcion}}</li>
@@ -48,7 +50,7 @@
         </div>
       </div>
       <div class="row">
-        <button type="submit" class="btn indigo darken-4">AGREGAR USUARIO<i class="material-icons">add_circle</i></button>
+        <button type="submit" class="btn indigo darken-4">AGREGAR USUARIO<i class="material-icons right">add_circle</i></button>
       </div>
     </div>
     
@@ -58,7 +60,7 @@
 
 <script>
 
-import M from 'materialize-ccs'
+import M from 'materialize-css'
 export default {
   name: 'App',
   data(){
