@@ -38,27 +38,36 @@
         </div>  
 
         <div class="row">
-          <div class="col m4 card-panel">
-            <label>Pasatiempo</label>
-            <input type="text" v-model="pasatiempo">
-            <button type="button" class="btn indigo darken-3">AGREGAR PASATIEMPO<i class="material-icons right">send</i></button>
-            <br>
-              <ul>
-                <li v-for="pasatiempo in pasatiempos" v-bind:key="pasatiempo">{{pasatiempo.descripcion}}</li>
-              </ul>
-          </div>
+          <form @submit.prevent="agregarPasatiempo">
+            <div class="col m4 card-panel">
+              <label>Pasatiempo</label>
+              <input type="text" v-model="pasatiempo">
+              <button type="submit" class="btn indigo darken-3">
+                AGREGAR PASATIEMPO<i class="material-icons right">send</i>
+              </button>
+              <br>
+                <ul>
+                  <li v-for="pasatiempo in pasatiempos" v-bind:key="pasatiempo">
+                    {{pasatiempo.id}} - {{pasatiempo.descripcion}}
+                    <a href="#!"><i class="material-icons">close</i></a>
+                  </li>
+                </ul>
+            </div>
+          </form>
         </div>
 
         <div class="row">
           <div class="col m4">
-            <label><input type="checkbox" v-model="suscribirse">
+            <label><input type="checkbox" v-model="suscrito">
                 <span>suscribirse al boletin de noticias</span>
             </label>
           </div>
         </div>
 
         <div class="row">
-          <button type="submit" class="btn indigo darken-4">AGREGAR USUARIO<i class="material-icons right">add_circle</i></button>
+          <button type="submit" class="btn indigo darken-4">
+            AGREGAR USUARIO<i class="material-icons right">add_circle</i>
+          </button>
       
         </div>
       </form>
@@ -74,7 +83,7 @@
             <th>Apellido</th>
             <th>Edad</th>
             <th>Estado Civil</th>
-            <th>Coreeo</th>
+            <th>Correo</th>
             <th>Pasatiempos</th>
             <th>Suscrito</th>
             <th>Editar</th>
@@ -90,7 +99,9 @@
             <td>{{ usuario.correo }}</td>
             <td>
               <ul>
-                <li v-for="pasatiempo in usuarios.pasatiempos" v-bind:key="pasatiempo">{{ pasatiempo.id }} - {{ pasatiempo.descripcion }}</li>
+                <li v-for="pasatiempo in usuario.pasatiempos" v-bind:key="pasatiempo">
+                  |{{ pasatiempo.id }} - {{ pasatiempo.descripcion }}|
+                </li>
               </ul>
             </td>
             <td><label><input type="checkbox" disable v-model="usuario.suscrito"><span></span></label></td>
@@ -120,18 +131,60 @@ export default {
       edad: 0,
       estado_civil:'',
       documento:'',
-      suscribirse:false,
+      suscrito:false,
       correo:'',
       pasatiempo:'' ,
       pasatiempos:[],
+      usuarios: [],
 
       select_instances: []
     }
   },
 
+
   mounted(){
     var elems = document.querySelectorAll('select');
     this.select_instances = M.FormSelect.init(elems, null);
+  },
+  methods:{
+    agregarUsuario()
+    {
+      var data = {
+        nombre: this.nombre,
+        apellido: this.apellido,
+        edad: this.edad,
+        estado_civil: this.estado_civil,
+        correo: this.correo,
+        suscrito: this.suscrito,
+      pasatiempos: this.pasatiempos
+      };
+      this.usuarios.push(data);
+        this.nombre='';
+        this.apellido='';
+        this.edad= 0;
+        this.estado_civil='';
+        this.suscrito=false;
+        this.correo='';
+        this.pasatiempo='';
+        this.pasatiempos=[];
+
+    },
+    agregarPasatiempo()
+    {
+      var total= this.pasatiempos.length;
+      var ultimo = 0;
+      if (total > 0) 
+      {
+        ultimo = this.pasatiempos[total - 1].id;
+      } 
+      var data = {
+        id: ultimo + 1,
+        descripcion: this.pasatiempo
+      };
+      this.pasatiempos.push(data);
+      this.pasatiempo = '';
+
+    }
   }
 
   }
