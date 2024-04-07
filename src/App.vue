@@ -23,12 +23,9 @@
           
           <div class="col m4">
             <label>Estado Civil</label>
-            <select v-model="estado_civil">
+            <select class="broser-default" id="select_estado_civil" v-model="estado_civil">
               <option value="">Seleccione</option>
-              <option value="C">Casado</option>
-              <option value="S">Soltero</option>
-              <option value="D">Divorciado</option>
-              <option value="V">Viudo</option>
+              <option v-for="estado in estados_civiles" v-bind:key="estado" v-bind:value="estado.id">{{ estado.descripcion }}</option>
             </select>
           </div>  
           <div class="col m4">
@@ -95,12 +92,12 @@
             <td>{{ usuario.nombre }}</td>
             <td>{{ usuario.apellido }}</td>
             <td>{{ usuario.edad }}</td>
-            <td>{{ usuario.estado_civil }}</td>
+            <td>{{ usuario.estado_civil_descripcion }}</td>
             <td>{{ usuario.correo }}</td>
             <td>
               <ul>
                 <li v-for="pasatiempo in usuario.pasatiempos" v-bind:key="pasatiempo">
-                  |{{ pasatiempo.id }} - {{ pasatiempo.descripcion }}|
+                  {{ pasatiempo.id }} - {{ pasatiempo.descripcion }}
                 </li>
               </ul>
             </td>
@@ -137,7 +134,30 @@ export default {
       pasatiempos:[],
       usuarios: [],
 
-      select_instances: []
+      select_instances: [],
+      estados_civiles: [
+        {
+          id:'S',
+          descripcion: 'Soltero'
+
+        },
+        {
+          id:'C',
+          descripcion: 'Casado'
+
+        },
+        {
+          id:'D',
+          descripcion: 'Divorciado'
+
+        },
+        {
+          id:'V',
+          descripcion: 'Viudo'
+
+        },
+
+      ]
     }
   },
 
@@ -149,14 +169,17 @@ export default {
   methods:{
     agregarUsuario()
     {
+      var index_estado_civil = this.estados_civiles.findIndex(x=>x.id == this.estado_civil);
       var data = {
         nombre: this.nombre,
         apellido: this.apellido,
         edad: this.edad,
         estado_civil: this.estado_civil,
+        estado_civil_descripcion: this.estados_civiles[index_estado_civil].descripcion,
         correo: this.correo,
         suscrito: this.suscrito,
-      pasatiempos: this.pasatiempos
+      pasatiempos: this.pasatiempos,
+      
       };
       this.usuarios.push(data);
         this.nombre='';
