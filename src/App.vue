@@ -63,7 +63,7 @@
 
         <div class="row">
           <button type="submit" class="btn indigo darken-4">
-            AGREGAR USUARIO<i class="material-icons right">add_circle</i>
+          {{ (indice == -1 ? 'AGREGAR':'ACTUALIZAR')}} USUARIO<i class="material-icons right">add_circle</i>
           </button>
       
         </div>
@@ -88,7 +88,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(usuario,index) in usuarios" v-bind:key="usuario">
+          <tr v-for="(usuario,index) in usuarios" v-bind:key="usuario" v-bind:class="{'indigo darken-4 white-text': index== indice}">
             <td>{{ usuario.nombre }}</td>
             <td>{{ usuario.apellido }}</td>
             <td>{{ usuario.edad }}</td>
@@ -102,7 +102,7 @@
               </ul>
             </td>
             <td><label><input type="checkbox" disable v-model="usuario.suscrito"><span></span></label></td>
-            <td><a href="#!"><i class="material-icons">create</i></a></td>
+            <td><a href="#!" @click="editar(index)"><i class="material-icons">create</i></a></td>
             <td><a href="#!" @click="eliminar(index)"><i class="material-icons">delete</i></a></td>
           </tr>   
         </tbody>
@@ -123,6 +123,7 @@ export default {
 
   data(){
     return{
+      indice: -1,
       nombre:'',
       apellido:'',
       edad: 0,
@@ -181,7 +182,14 @@ export default {
       pasatiempos: this.pasatiempos,
       
       };
-      this.usuarios.push(data);
+      if(this.indice == -1)
+      {
+        this.usuarios.push(data);
+      }
+      else{
+        this.usuarios[this.indice] = data;
+      }
+        this.indice= -1;
         this.nombre='';
         this.apellido='';
         this.edad= 0;
@@ -211,6 +219,18 @@ export default {
     eliminar(index) {
       if(!confirm('?desea eliminar este regristro')) return;
       this.usuarios.splice(index, 1);
+    },
+    editar(index) 
+    {
+      var usuario = this.usuarios[index];
+      this.indice = index;
+      this.nombre = usuario.nombre;
+      this.apellido = usuario.apellido;
+      this.edad = usuario.edad;
+      this.correo= usuario.correo;
+      this.estado_civil= usuario.estado_civil;
+      this.pasatiempos = usuario.pasatiempos;
+
     }
   }
 
