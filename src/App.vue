@@ -44,9 +44,9 @@
               </button>
               <br>
                 <ul>
-                  <li v-for="pasatiempo in pasatiempos" v-bind:key="pasatiempo">
+                  <li v-for="(pasatiempo, index) in pasatiempos" v-bind:key="pasatiempo">
                     {{pasatiempo.id}} - {{pasatiempo.descripcion}}
-                    <a href="#!"><i class="material-icons">close</i></a>
+                    <a href="#!" @click="pasatiempos.splice(index, 1)"><i class="material-icons">close</i></a>
                   </li>
                 </ul>
             </div>
@@ -88,7 +88,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="usuario in usuarios" v-bind:key="usuario">
+          <tr v-for="(usuario,index) in usuarios" v-bind:key="usuario">
             <td>{{ usuario.nombre }}</td>
             <td>{{ usuario.apellido }}</td>
             <td>{{ usuario.edad }}</td>
@@ -103,7 +103,7 @@
             </td>
             <td><label><input type="checkbox" disable v-model="usuario.suscrito"><span></span></label></td>
             <td><a href="#!"><i class="material-icons">create</i></a></td>
-            <td><a href="#!"><i class="material-icons">delete</i></a></td>
+            <td><a href="#!" @click="eliminar(index)"><i class="material-icons">delete</i></a></td>
           </tr>   
         </tbody>
       </table>
@@ -207,6 +207,10 @@ export default {
       this.pasatiempos.push(data);
       this.pasatiempo = '';
 
+    },
+    eliminar(index) {
+      if(!confirm('?desea eliminar este regristro')) return;
+      this.usuarios.splice(index, 1);
     }
   }
 
